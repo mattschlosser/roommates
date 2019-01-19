@@ -1,0 +1,9 @@
+Hey <%= user.firstName %>, here are the chores for <%= household.name %> this week:
+<ul>
+<% for (var i = 0; i < chores.length; i++) { %>
+    <li><%= chores[i].firstName %> <%=chores[i].lastName %> is on <%= chores[i].chore %>
+    <% if (chores[i].id == user.id) { %>
+      <button>Mark as Done</button>
+    <% } %>
+   </li>
+<% } %>

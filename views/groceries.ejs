@@ -1,0 +1,7 @@
+Hey <%= user.firstName %>, here are the groceries for <%= household.name %> this week:
+<ul>
+<% for (var i = 0; i < groceries.length; i++) { %>
+    <li> <%= groceries[i].item  %> <b>(<%= groceries[i].firstName %>)</b> %>
+      <button>Mark as Purchased</button>
+   </li>
+<% } %>

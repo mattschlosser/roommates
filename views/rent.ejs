@@ -1,0 +1,20 @@
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet"> 
+
+    <h1>Rent</h1>
+    <span class="dollars">$<%=rent.amount %></span><br/>
+    Due: <%= rent.due %><br/>
+    Pay  with:
+    <a href="paypal.com"><img class='payment' src='img/paypal.png' alt='paypal'/></a>
+    <a href="https://www.interac.ca/en/interac-e-transfer-consumer.html">
+        <img src="img/etransfer.png" alt="etransfer" class='payment' />
+    </a><br/>
+    <button>I've paid</button>
+
+    <h1>Utilities</h1>
+    <span class="dollars">$<%= utilities.amount %></span><br/>
+
+    Due: <%= utilities.due %>
