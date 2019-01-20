@@ -224,6 +224,11 @@ app.delete("/household/:id", function(req, res){
 
 });
 
+
+app.get("/roommate/new", function(req, res) {
+    res.render("addRoommate", {user: user});
+})
+
 app.get("/roommate/:id", function(req, res) {
     // view an individual within a household-
     // we need to check that they belong to a same household as user?
