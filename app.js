@@ -117,7 +117,7 @@ app.get("/chores", function(req, res) {
 });
 
 // update chore
-app.post("/chores/:id", function(req, res) {
+app.post("/chore/:id", function(req, res) {
     // lets just assume we are marking it as done
     
     db.run("UPDATE chores SET done = 1 where id = ?;", [req.params.id], (err) => {
