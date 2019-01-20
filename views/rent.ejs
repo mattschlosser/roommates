@@ -25,7 +25,7 @@
         <a class="nav-link" href="/">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/households">Households </a>
+        <a class="nav-link" href="/household">Households </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/chores">Chores</a>
@@ -43,8 +43,8 @@
     <span class="dollars">$<%=rent.amount %></span><br/>
     Due: <%= rent.due %><br/>
     Pay  with:
-    <a href="paypal.com"><img class='payment' src='img/paypal.png' alt='paypal'/></a>
-    <a href="https://www.interac.ca/en/interac-e-transfer-consumer.html">
+    <a style="max-height:50px;" href="paypal.com"><img class='payment' src='img/paypal.png' alt='paypal'/></a>
+    <a style="max-height:50px;" href="https://www.interac.ca/en/interac-e-transfer-consumer.html">
         <img src="img/etransfer.png" alt="etransfer" class='payment' />
     </a><br/>
     <button>I've paid</button>
