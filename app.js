@@ -117,11 +117,14 @@ app.get("/chores", function(req, res) {
 });
 
 // update chore
-app.put("/chore/:id", function(req, res) {
-    // update a chore as done.
-    id = req.params.id;
-    console.log(id);
-})
+app.post("/chores/:id", function(req, res) {
+    // lets just assume we are marking it as done
+    
+    db.run("UPDATE chores SET done = 1 where id = ?;", [req.params.id], (err) => {
+        if (err) console.log(err);
+    });
+    res.redirect("/chores");
+});
 
 // delete chore
 app.delete("/chore/:id", function(req, res) {

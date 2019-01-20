@@ -43,17 +43,21 @@
 </nav>
 <h1>Chores</h1>
 Hey <%= user.firstName %>, here are the chores for <%= household.name %> this week:
-<ul>
+<table class="table"><thead><th>Person</th><th>Task</th><th>Actions</th></thead>
 <% for (var i = 0; i < chores.length; i++) { %>
-    <li><%= chores[i].firstName %> <%=chores[i].lastName %> is on <%= chores[i].task %>
-    <% if (chores[i].id == user.id) { %>
-      <button>Mark as Done</button>
+    <tr><td><%= chores[i].firstName %> <%=chores[i].lastName %></td><td><%= chores[i].task %></td>
+    <td>
+    <% if (chores[i].id == user.id && !chores[i].done) { %>
+     <form method="post" action="/chore/<%= chores[i].id %>"><button class="btn btn-primary" type="submit">Mark as Done</button></form>
+    <% } else if (chores[i].id == user.id) { %> 
+      <button class="btn btn-success" disabled>Completed</button>
     <% } %>
-   </li>
+    </td>
+    </tr>
 <% } %>
-</ul>
+</table>
 
-<a class="btn btn-primary" href="/chore/new">Add a chore</a>
+<a class="btn btn-primary btn-block" href="/chore/new">Add a chore</a>
 </div>
 
 
