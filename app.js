@@ -184,10 +184,26 @@ app.post("/households", function(req,res,next) {
 })
 
 // read households
+
+
+app.get("/household", function(req, res) {
+    // list households;
+    households = [{id: 1, name: "HMS Hamster", street: "11151 78 Ave NW", city: "Edmonton, AB"}];
+    db.get("SELECT * FROM households where household = ?;", [user.household], (err, household) => {
+        db.all("SELECT * FROM roommates natural join users where roommates.household = ?", [user.household], (err, roommates) => {
+            res.render("house", {user: user, household: household, roommates: roommates});
+        });
+    })
+    
+});
+
 app.get("/households", function(req, res) {
     // list households;
     households = [{id: 1, name: "HMS Hamster", street: "11151 78 Ave NW", city: "Edmonton, AB"}];
-    res.render("households", {user: user, households: households});
+    db.get("SELECT * FROM households where household = ?;", [user.household], (err, household) => {
+        res.render("households", {user: user, household: household});
+    })
+    
 });
 
 // read household
