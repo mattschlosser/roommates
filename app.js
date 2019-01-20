@@ -231,8 +231,12 @@ app.delete("/household/:id", function(req, res){
 
 app.post("/roommates", function(req, res) {
     let person = req.body;
-    db.run("INSERT INTO users(firstName, lastName, email) values(?,?,?);", [person.firstName, person.lastName, person.email], (err) => {
-        console.log(err);
+    db.run("INSERT INTO users(firstName, lastName, email, password) values(?,?,?,?);", [person.firstName, person.lastName, person.email, 0], function (err) {
+        if (err) console.log(err);
+        console.log(this.lastID);
+        db.run("INSERT into roommates(household, user) values(?,?)", [user.household, this.lastID], (err) => {
+            if (err) console.log(err);
+        });
     });
     res.redirect("/household"); 
 })
