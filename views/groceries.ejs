@@ -42,9 +42,9 @@ Hey <%= user.firstName %>, here are the groceries for <%= household.name %> this
      <tr><td><%= groceries[i].item  %></td><td><%= groceries[i].firstName %></td>
      <td>
     <% if (!groceries[i].purchased) { %>
-      <form method="post" action="/groceries/<%=groceries[i].id%>"><button class='btn btn-primary btn-sm' onClick=''>Mark as Purchased</button></form>
+      <form method="post" action="/groceries/<%=groceries[i].id%>"><button class='btn btn-primary btn-sm btn-block' onClick=''>Mark as Purchased</button></form>
     <% } else { %>
-      <button class='btn btn-primary btn-sm' onClick='return false();' disabled>Already Purchased</button>
+      <button class='btn btn-primary btn-sm btn-block' onClick='return false();' disabled>Already Purchased</button>
     <% } %>
    </td></tr>
 <% } %>
