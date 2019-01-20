@@ -48,11 +48,11 @@ Hey <%= user.firstName %>, here are the chores for <%= household.name %> this we
     <tr><td><%= chores[i].firstName %> <%=chores[i].lastName %></td><td><%= chores[i].task %></td>
     <td>
     <% if (chores[i].user == user.id && !chores[i].done) { %>
-     <form method="post" action="/chore/<%= chores[i].id %>"><button class="btn btn-primary" type="submit">Mark as Done</button></form>
+     <form method="post" action="/chore/<%= chores[i].id %>"><button class="btn btn-primary btn-block" type="submit">Mark as Done</button></form>
     <% } else if (chores[i].user == user.id) { %> 
-      <button class="btn btn-success" disabled>Completed</button>
-    <% } else if (chores[i].user!= user.id && !chores[i].done) { %>
-      <button class="btn btn-danger">Nag</button>
+      <button class="btn btn-success btn-block" disabled>Completed</button>
+    <% } else if (chores[i].user != user.id && !chores[i].done) { %>
+      <button class="btn btn-danger btn-block">Nag</button>
     <% } %>  
     </td>
     </tr>
