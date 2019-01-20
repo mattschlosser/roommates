@@ -234,10 +234,11 @@ app.get("/roommate/:id", function(req, res) {
             console.log(roommate);
             res.send("Roommate not found!");
         } else {        
-            household = {id: 1, name: "HMS Hamster", street: "11151 78 Ave NW", city: "Edmonton, AB"};
+            db.get("Select * from households where households.household = ? ", [user.household], (req, res) => {
+                res.render("roommate", {roommate: roommate, user: user});       
+            })
             //roommate = {id: 1, firstName: "Matt", lastName: "Schlosser"};
             console.log(roommate);
-            res.render("roommate", {roommate: roommate, user: user});      
         }
     })
 });
