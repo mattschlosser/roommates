@@ -43,16 +43,16 @@
     <span class="dollars">$<%=rent.amount %></span><br/>
     Due: <%= rent.due %><br/>
     Pay  with:
-    <a class="btn btn-primary" style="max-height:50px;" href="paypal.com">Paypal</a>
+    <a class="btn btn-primary" style="max-height:50px;" href="https://paypal.com">Paypal</a>
     <a class="btn btn-secondary" style="max-height:50px;" href="https://www.interac.ca/en/interac-e-transfer-consumer.html">
        e-transfer
     </a><br/>
-    <button>I've paid</button>
 
     <h1>Utilities</h1>
     <span class="dollars">$ <%= utilities.amount %></span><br/>
 
     Due: <%= utilities.due %>
+    <button class="btn btn-success btn-block">I've paid</button>
 
 
 </div>
