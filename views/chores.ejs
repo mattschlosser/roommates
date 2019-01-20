@@ -49,7 +49,7 @@ Hey <%= user.firstName %>, here are the chores for <%= household.name %> this we
     <td>
     <% if (chores[i].user == user.id && !chores[i].done) { %>
      <form method="post" action="/chore/<%= chores[i].id %>"><button class="btn btn-primary btn-block" type="submit">Mark as Done</button></form>
-    <% } else if (chores[i].user == user.id) { %> 
+    <% } else if (chores[i].done) { %> 
       <button class="btn btn-success btn-block" disabled>Completed</button>
     <% } else if (chores[i].user != user.id && !chores[i].done) { %>
       <button class="btn btn-danger btn-block">Nag</button>
