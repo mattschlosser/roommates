@@ -234,7 +234,7 @@ app.post("/roommates", function(req, res) {
     db.run("INSERT INTO users(firstName, lastName, email) values(?,?,?);", [person.firstName, person.lastName, person.email], (err) => {
         console.log(err);
     });
-    app.redirect("/household"); 
+    res.redirect("/household"); 
 })
 
 
