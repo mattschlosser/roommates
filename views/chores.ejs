@@ -27,7 +27,7 @@
         <a class="nav-link" href="/">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/households">Households </a>
+        <a class="nav-link" href="/household">Households </a>
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="/chores">Chores</a>
@@ -45,13 +45,15 @@
 Hey <%= user.firstName %>, here are the chores for <%= household.name %> this week:
 <ul>
 <% for (var i = 0; i < chores.length; i++) { %>
-    <li><%= chores[i].firstName %> <%=chores[i].lastName %> is on <%= chores[i].chore %>
+    <li><%= chores[i].firstName %> <%=chores[i].lastName %> is on <%= chores[i].task %>
     <% if (chores[i].id == user.id) { %>
       <button>Mark as Done</button>
     <% } %>
    </li>
 <% } %>
 </ul>
+
+<a class="btn btn-primary" href="/chore/new">Add a chore</a>
 </div>
 
 

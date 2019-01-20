@@ -7,7 +7,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 
-var users = [{id: 2, email: "websitemakingguy@gmail.com", firstName: "Matt", lastName: "Schlosser", password: "1234"}];
+var users = [{id: 1, email: "websitemakingguy@gmail.com", firstName: "Matt", lastName: "Schlosser", password: "1234", household: 1}];
 var user = users[0];
 // configure passport.js to use the local strategy
 passport.use(new LocalStrategy(
@@ -62,10 +62,7 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + '/public'));
 
 var db = new sqlite3.Database(__dirname + '/my.db');
-console.log(db);
-db.all("SELECT * FROM households", (err, rows) => {
-    console.log(rows);
-});
+
 app.get('/', function(req, res) {
     // render the home page
     res.render("home");
@@ -81,7 +78,6 @@ app.get("/login", function(req, res) {
 
 app.post("/login", function(req, res, next) {
     // do something
-    console.log(req.body);
     passport.authenticate('local', (err, user, info) => {
         req.login(user, (err) => {
           return res.send('You were authenticated & logged in!\n');
@@ -89,29 +85,89 @@ app.post("/login", function(req, res, next) {
       })(req, res, next);
 })
 
-app.get("/chores", function(req, res) {
-    // get chores for user and send to the thing
-    res.render("chores", {user: user, household: household, chores: chores});
-});
-
+// create chores
 app.get("/chore/new", function(req, res) {
     // add a new chore
-    res.render("chore", {user: user, household: household, roommates: roomates});
+    db.get("SELECT * FROM households where households.household = ?;" [user.household], (err, household)=> {
+        db.all("SELECT * FROM roommates natural join users where roommates.household = ?", [user.household], (err, roommates) => {
+            res.render("addChore", {user: user, household: household, roommates: roommates});
+        });
+    });
 });
 
-app.post("/chore/new", function(req, res) {
-    
+// create chores
+app.post("/chores", function(req, res) {
+    newChore = req.body;
+        db.run("INSERT INTO chores(household,user,task) values(?,?,?);", [user.household, newChore.person, newChore.name], (err) => {
+        console.log(err);
+    })
+    res.redirect("/chores");
 })
 
+// read chores
+app.get("/chores", function(req, res) {
+    // get chores for user and send to the thing
+    db.get("SELECT * FROM households where households.household = ?", [user.household], (err, household) => {
+        db.all("SELECT * FROM chores natural join users natural join roommates where roommates.household = ? ", [user.household], (err, chores) => {
+            console.log(chores);    
+            res.render("chores", {user: user, household: household, chores: chores});
+        })    
+    })
+    
+});
+
+// update chore
 app.put("/chore/:id", function(req, res) {
     // update a chore as done.
     id = req.params.id;
     console.log(id);
 })
 
+// delete chore
+app.delete("/chore/:id", function(req, res) {
+
+});
+
+app.get("/groceries/new", function(req,res) {
+    // oh ok    
+    res.render("addGrocery");
+});
+
+
+// create groceries
+app.post("/groceries", function (req,res) {
+    console.log(req.body);
+    items = req.body;
+    db.run("INSERT INTO groceries(household,user,item) values(?,?,?);", [user.household, user.id, items.item    ], (err) => {
+        console.log(err);
+    })
+    res.redirect("/groceries");
+})
+
+// read groceries
 app.get("/groceries", function(req, res) {
     // get the grocery list and display to user
-    res.render("groceries", {user: user, household: household, groceries: groceries})
+    var household;
+    db.all("SELECT * FROM households WHERE households.household = ?;", [user.household], (err, row) => {
+        household = row[0];
+        db.all("SELECT * from groceries natural join users   where groceries.household = ?;", [user.household], (err, groceries) => {
+     
+            res.render("groceries", {user: user, household: household, groceries: groceries})
+        })
+    });
+
+
+});
+
+// update grocery item
+app.put("/groceries/:id", function(req, res) {
+    
+});
+
+
+// delete grocery item
+app.delete("groceries/:id", function(req, res) {
+
 });
 
 // create household
@@ -119,9 +175,7 @@ app.get("/household/new", function(req, res) {
     // Make a new household
     res.render("addHousehold", {user: user})
 });
-
 app.post("/households", function(req,res,next) {
-    console.log(req.body);
     newHousehold = req.body;
     db.run("INSERT INTO households(name,street,city) values(?,?,?);", [newHousehold.name, newHousehold.street, newHousehold.city], (err) => {
         console.log(err);
@@ -150,6 +204,9 @@ app.get("/household/:id", function(req, res) {
 
 //update household
 //delete household
+app.delete("/household/:id", function(req, res){
+
+});
 
 app.get("/roommate/:id", function(req, res) {
     // view an individual within a household-
@@ -169,10 +226,7 @@ app.get("/roommate/:id", function(req, res) {
     })
 });
 
-
-
-
-
+// create rent
 app.get("/rent", function(req, res) {
     // get and send rent data
     console.log('Inside GET /authrequired callback')
@@ -183,6 +237,10 @@ app.get("/rent", function(req, res) {
     res.render("rent", {rent: rent, utilities: utilities});
  
 });
+
+// read rent
+// update rent
+// delete rent - if only everyone could do this...
 
 app.get("/*", function(req, res) {
     res.redirect('/');

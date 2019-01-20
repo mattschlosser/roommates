@@ -47,11 +47,11 @@
 <input id="remail1" class="rEmail" placeholder="roommate" /><button onclick="addAnotherEmail(this.id)" class="add">+</button><br/>
 <button>Sign Up</button>
 //-->
-<form method="POST" action="/households">
+<!-- TODO movie to sign up page -->
+<form method="POST" action="/household">
   <div class="form-group">
     <label for="firstName">Household Name</label>
-    <input type="text" class="form-control" id="name" name="name" aria-describedby="emailHelp" placeholder="Household Name">
-    <small id="emailHelp">We'll never share your email with anyone else.</small>
+    <input type="text" class="form-control" id="name" name="name" placeholder="Household Name">
   </div>
   <div class="form-group">
     <label for="street">Street</label>
@@ -61,7 +61,7 @@
     <label for="city">City</label>
     <input type="text" class="form-control" id="city" name="city" placeholder="Edmonton, AB">
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary btn-block">Submit</button>
 </form>
 </div>
 
