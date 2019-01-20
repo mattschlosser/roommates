@@ -1,32 +1,26 @@
 <head>
-    <title><%= household.name %> - Roommates</title>
+    <title>Households - Roommates</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
     <meta charset = "utf-8">
     <meta http-equiv = "X-UA-Compatible" content = "IE = edge">
     <meta name = "viewport" content = "width = device-width,    initial-scale = 1">
 
-<% function addAnotherEmail(id) {
-
-    console.log(document.getElementById(id));
-}
-%>
 </head>
 <body>
 <div class="container">
-
-<h1><%=household.name%></h1>
-Address: <%=household.street%>, <%=household.city%><br/>
-
-<h2>Roommates<h2>
-<table>
-    <thead><th>Name</th></thead>
-    <% for (var i = 0; i < roommates.length; i++) { %>
-    <tr>
-        <td><a href="/roommate/<%=roommates[i].id%>/"><%=roommates[i].firstName %> <%= roommates[i].lastName%></a></td>
-    </tr> 
+    <h1>My Households</h1>
+    <table>
+        <thead><th>Name</th><th>Location</th></thead>
+    <% for (var i =0; i < households.length; i++) { %>
+        <tr>
+            <td><a href="/household/<%=households[i].id%>"><%=households[i].name%></a></td>
+            <td><%= households[i].street %>, <%= households[i].city %></td>
+        </tr>
     <% } %>
-</table>
+    </table>
+
+</div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
