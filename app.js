@@ -160,8 +160,13 @@ app.get("/groceries", function(req, res) {
 });
 
 // update grocery item
-app.put("/groceries/:id", function(req, res) {
-    
+app.post("/groceries/:id", function(req, res) {
+    // lets just assume we are marking it as done
+    console.log("hello");
+    db.run("UPDATE groceries SET purchased = 1 where id = ?;", [req.params.id], (err) => {
+        console.log(err);
+    });
+    res.redirect("/groceries");
 });
 
 
@@ -223,6 +228,14 @@ app.get("/household/:id", function(req, res) {
 app.delete("/household/:id", function(req, res){
 
 });
+
+app.post("/roommates", function(req, res) {
+    let person = req.body;
+    db.run("INSERT INTO users(firstName, lastName, email) values(?,?,?);", [person.firstName, person.lastName, person.email], (err) => {
+        console.log(err);
+    });
+    app.redirect("/household"); 
+})
 
 
 app.get("/roommate/new", function(req, res) {
