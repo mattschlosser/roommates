@@ -43,7 +43,7 @@ Address: <%=household.street%>, <%=household.city%><br/>
     <thead><th>Name</th></thead>
     <% for (var i = 0; i < roommates.length; i++) { %>
     <tr>
-        <td><a href="/roommate/<%=roommates[i].id%>/"><%=roommates[i].firstName %> <%= roommates[i].lastName%></a></td>
+        <td><a href="/roommate/<%=roommates[i].user%>"><%=roommates[i].firstName %> <%= roommates[i].lastName%></a></td>
     </tr> 
     <% } %>
 </table>
