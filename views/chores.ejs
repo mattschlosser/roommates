@@ -38,18 +38,19 @@
 </nav>
 <h1>Chores</h1>
 Hey <%= user.firstName %>, here are the chores for <%= household.name %> this week:
-<table class="table"><thead><th>Person</th><th>Task</th><th>Actions</th></thead>
+<table class="table"><thead><th>Person</th><th>Task</th><th colspan='2'>Actions</th></thead>
 <% for (var i = 0; i < chores.length; i++) { %>
     <tr><td><%= chores[i].firstName %> <%=chores[i].lastName %></td><td><%= chores[i].task %></td>
     <td>
     <% if (chores[i].user == user.id && !chores[i].done) { %>
-     <form method="post" action="/chore/<%= chores[i].id %>"><button class="btn btn-primary btn-block" type="submit">Mark as Done</button></form>
+     <form method="post" action="/chore/<%= chores[i].id %>"><button class="btn btn-sm btn-primary btn-block" type="submit">Mark as Done</button></form>
     <% } else if (chores[i].done) { %> 
-      <button class="btn btn-success btn-block" disabled>Completed</button>
+      <button class="btn btn-success btn-sm btn-block" disabled>Completed</button>
     <% } else if (chores[i].user != user.id && !chores[i].done) { %>
-      <button class="btn btn-danger btn-block">Nag</button>
+      <button class="btn btn-danger btn-sm btn-block">Nag</button>
     <% } %>  
     </td>
+    <td style="width:1%;"><button class="btn btn-sm btn-danger">Delete</button></td>
     </tr>
 <% } %>
 </table>

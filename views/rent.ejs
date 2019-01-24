@@ -50,9 +50,15 @@
 
     <h1>Utilities</h1>
     <span class="dollars">$ <%= utilities.amount %></span><br/>
+    <table class="table">
+	<thead><th>Item</th><th>Amount</th><th>Split Cost</th><th>Actions</th></thead>
+	<tr><td>Internet</td><td>$44.00</td><td>$11.00</td> <td style="width:15;"><button class="btn btn-danger btn-sm">Delete</button></td></tr>
+	<tr><td>Water</td><td>$88.00</td><td>$22.00</td><td style="width:1%;"><button class="btn btn-danger btn-sm">Delete</button></td></tr>
+	<tr><td>Total</td><td>$132.00</td><td>$33.00</td></tr>
+	<tr><td colspan='4' class="text-center">    Due: <%= utilities.due %> </td></tr>
+	<tr><td colspan='4'>     <button class="btn btn-success btn-block">I've paid</button> </td></tr>
 
-    Due: <%= utilities.due %>
-    <button class="btn btn-success btn-block">I've paid</button>
+    </table>
 
 
 </div>

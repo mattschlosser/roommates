@@ -259,7 +259,7 @@ app.get("/roommate/:id", function(req, res) {
             console.log(roommate);
             res.send("Roommate not found!");
         } else {        
-            db.get("Select * from households where households.household = ? ", [user.household], (err, roommate) => {
+            db.get("Select * from households where households.household = ? ", [user.household], (err, household) => {
                 res.render("roommate", {roommate: roommate, user: user});       
             })
             //roommate = {id: 1, firstName: "Matt", lastName: "Schlosser"};
