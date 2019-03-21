@@ -116,6 +116,7 @@ app.get("/chores", function(req, res) {
     
 });
 
+
 // update chore
 app.post("/chore/:id", function(req, res) {
     // lets just assume we are marking it as done
@@ -129,11 +130,14 @@ app.post("/chore/:id", function(req, res) {
 // delete chore
 app.delete("/chore/:id", function(req, res) {
     // TODO auth user
-    db.run("DELETE from chores WHERE id = ? LIMIT 1;", [reg.params.id], (err) => {
-        if (err) console.log(err);
+    db.run("DELETE FROM chores WHERE id = ?;", [req.params.id], (err) => {
+        if (err) {
+            console.log(err);
+            res.sendStatus(202);
+        } else {
+            res.sendStatus(200);
+        }
     });
-    res.status(200);
-    res.send();
 });
 
 app.get("/grocers/new", function(req,res) {
@@ -179,8 +183,16 @@ app.post("/groceries/:id", function(req, res) {
 
 
 // delete grocery item
-app.delete("groceries/:id", function(req, res) {
-
+app.delete("/groceries/:id", function(req, res) {
+    // TODO auth user
+    db.run("DELETE FROM groceries WHERE id = ?;", [req.params.id], (err) => {
+        if (err) {
+            console.log(err);
+            res.sendStatus(202);
+        } else {
+            res.sendStatus(200);
+        }
+    });
 });
 
 // create household
@@ -234,7 +246,15 @@ app.get("/household/:id", function(req, res) {
 //update household
 //delete household
 app.delete("/household/:id", function(req, res){
-
+    // TODO auth user
+    db.run("DELETE FROM households WHERE id = ?;", [req.params.id], (err) => {
+        if (err) {
+            console.log(err);
+            res.sendStatus(202);
+        } else {
+            res.sendStatus(200);
+        }
+    });
 });
 
 app.post("/roommates", function(req, res) {
@@ -249,11 +269,11 @@ app.post("/roommates", function(req, res) {
     res.redirect("/household"); 
 })
 
-
+// create
 app.get("/roommate/new", function(req, res) {
     res.render("addRoommate", {user: user});
 })
-
+// read
 app.get("/roommate/:id", function(req, res) {
     // view an individual within a household-
     // we need to check that they belong to a same household as user?
@@ -271,6 +291,19 @@ app.get("/roommate/:id", function(req, res) {
             console.log(roommate);
         }
     })
+});
+// update
+// destroy
+app.delete("/roommate/:id", function(req, res){
+    // TODO auth user
+    db.run("DELETE FROM roommates WHERE user = ?;", [req.params.id], (err) => {
+        if (err) {
+            console.log(err);
+            res.sendStatus(202);
+        } else {
+            res.sendStatus(200);
+        }
+    });
 });
 
 // create rent

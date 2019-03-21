@@ -42,9 +42,9 @@ Address: <%=household.street%>, <%=household.city%><br/>
 <table class="table">
     <thead><th>Name</th><th>Actions</th></thead>
     <% for (var i = 0; i < roommates.length; i++) { %>
-    <tr>
+    <tr id="roommate<%=roommates[i].user%>">
         <td><a href="/roommate/<%=roommates[i].user%>"><%=roommates[i].firstName %> <%= roommates[i].lastName%></a></td>
-	<td style="width:1%;"><button class="btn btn-danger btn-sm">Reomve</button></td>
+	<td style="width:1%;"><button class="btn btn-danger btn-sm delete" data-button='{"id": "<%=roommates[i].user%>"}' >Delete</button></td>
     </tr> 
     <% } %>
 </table>
@@ -57,5 +57,30 @@ Address: <%=household.street%>, <%=household.city%><br/>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-
+<script>
+  $(function(){
+    function roommate(id) {
+      return "#roommate" + id;
+    }  
+    $('.delete').on('click', function (e) {
+        let res = confirm('Are you sure?');
+        if (res) {      
+          console.log($(this).attr("data-button"));
+          data = JSON.parse($(this).attr("data-button"));
+          fetch("/roommate/" + data.id, {
+            method: 'DELETE'
+          }).then(response => {
+            if (response.status == 200) {
+              // deletion succeeded
+              $(roommate(data.id)).remove();
+            } else {
+              // error
+              alert("An error occurred...")
+            }
+          })
+          .catch(error => console.log("ERROR: " + console.log(error)));
+        }
+    });
+  });
+  </script>
 </body>
