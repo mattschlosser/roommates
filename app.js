@@ -128,10 +128,15 @@ app.post("/chore/:id", function(req, res) {
 
 // delete chore
 app.delete("/chore/:id", function(req, res) {
-
+    // TODO auth user
+    db.run("DELETE from chores WHERE id = ? LIMIT 1;", [reg.params.id], (err) => {
+        if (err) console.log(err);
+    });
+    res.status(200);
+    res.send();
 });
 
-app.get("/groceries/new", function(req,res) {
+app.get("/grocers/new", function(req,res) {
     // oh ok    
     res.render("addGrocery");
 });

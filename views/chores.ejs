@@ -6,7 +6,23 @@
     <meta charset = "utf-8">
     <meta http-equiv = "X-UA-Compatible" content = "IE = edge">
     <meta name = "viewport" content = "width = device-width,    initial-scale = 1">
+    <script>
+    $(function(){
 
+      $('#rectButton').on('click', function (e) {
+
+          alert('Hello!');
+
+      });
+    
+
+    });
+    function del(id) {
+      fetch("/chores/" + id, {
+        method = 'DELETE'
+      }
+    }
+   </script>
 </head>
 <body>
 <div class="container">
@@ -50,7 +66,7 @@ Hey <%= user.firstName %>, here are the chores for <%= household.name %> this we
       <button class="btn btn-danger btn-sm btn-block">Nag</button>
     <% } %>  
     </td>
-    <td style="width:1%;"><button class="btn btn-sm btn-danger">Delete</button></td>
+    <td style="width:1%;"><button class="btn btn-sm btn-danger" onclick='del(<%= chores[i].id%>)'>Delete</button></td>
     </tr>
 <% } %>
 </table>
