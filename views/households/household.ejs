@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title><%= household.name %> - Roommates</title>
+      <% include ../partials/headers.ejs %>
+  </head>
+  <body>
+    <div class="container">
+      <% include ../partials/nav.ejs %>
+      <h1><%=household.name%></h1>
+      <address>Address: <%=household.street%>, <%=household.city%></address><br/>
+
+      <h2>Roommates<h2>
+      <table>
+          <thead><th>Name</th></thead>
+          <% for (var i = 0; i < roommates.length; i++) { %>
+          <tr>
+              <td><a href="/roommate/<%=roommates[i].id%>/"><%=roommates[i].firstName %> <%= roommates[i].lastName%></a></td>
+          </tr> 
+          <% } %>
+      </table>
+
+      <a class="btn btn-primary" href="/household/<%=household.household%>/roommate/new">Add a roommate</a>
+    </div>
+  <% include ../partials/scripts.ejs %>
+  </body>
+</html>

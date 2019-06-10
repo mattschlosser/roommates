@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>Households - Roommates</title>
+      <% include ../partials/headers.ejs %>
+  </head>
+  <body>
+    <div class="container">
+    <% include ../partials/nav.ejs %>
+
+      <h1><%=household.name%></h1>
+      Address: <%=household.street%>, <%=household.city%><br/>
+
+      <h2>Roommates</h2>
+      <table class="table">
+          <thead><th>Name</th><th>Actions</th></thead>
+          <% for (var i = 0; i < roommates.length; i++) { %>
+            <tr id="roommate<%=roommates[i].user%>">
+              <td>
+                <a href="/roommate/<%=roommates[i].user%>">
+                  <%=roommates[i].firstName %> 
+                  <%= roommates[i].lastName%>
+                </a>
+              </td>
+              <td style="width:1%;">
+                <button class="btn btn-danger btn-sm delete" 
+                  data-button='{"id": "<%=roommates[i].user%>"}' >
+                    Delete
+                </button>
+              </td>
+            </tr> 
+          <% } %>
+      </table>
+
+
+      <a class="btn btn-primary btn-block" href="/roommate/new">Add a roommate</a>
+
+    </div>
+    <% include ../partials/scripts.ejs %>
+    <script>
+    $(function(){
+      function roommate(id) {
+        return "#roommate" + id;
+      }  
+      $('.delete').on('click', function (e) {
+          let res = confirm('Are you sure?');
+          if (res) {      
+            console.log($(this).attr("data-button"));
+            data = JSON.parse($(this).attr("data-button"));
+            fetch("/roommate/" + data.id, {
+              method: 'DELETE'
+            }).then(response => {
+              if (response.status == 200) {
+                // deletion succeeded
+                $(roommate(data.id)).remove();
+              } else {
+                // error
+                alert("An error occurred...")
+              }
+            })
+            .catch(error => console.log("ERROR: " + console.log(error)));
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

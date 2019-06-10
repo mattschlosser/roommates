@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>Add a Household - Roommates</title>
+      <% include ../partials/headers.ejs %>
+  </head>
+  <body>
+    <div class="container">
+    <% include ../partials/nav.ejs %>
+
+      <h1>Add a new household </h1>
+      <form method="POST" action="/household">
+        <div class="form-group">
+          <label for="firstName">Household Name</label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="Household Name">
+        </div>
+        <div class="form-group">
+          <label for="street">Street</label>
+          <input type="text" class="form-control" id="street" name="street" placeholder="10800 97 Ave NW">
+        </div>
+        <div class="form-group">
+          <label for="city">City</label>
+          <input type="text" class="form-control" id="city" name="city" placeholder="Edmonton, AB">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+      </form>
+    </div>
+
+  <% include ../partials/scripts.ejs %>
+  </body>
+</html>

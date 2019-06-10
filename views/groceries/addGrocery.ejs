@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>Add an item - Roommates</title>
+      <% include ../partials/headers.ejs %>
+  </head>
+  <body>
+    <div class="container">
+      <% include ../partials/nav.ejs %>
+      <h1>Add a new item </h1>
+
+      <form method="POST" action="/groceries">
+        <div class="form-group">
+          <label for="name">Item Name</label>
+          <input type="text" class="form-control" id="item" name="item" placeholder="Coffee">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+      </form>
+      
+    </div>
+
+    <% include ../partials/scripts.ejs %>
+  </body>
+</html>
