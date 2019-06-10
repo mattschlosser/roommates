@@ -7,7 +7,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 
-var users = [{id: 4, email: "websitemakingguy@gmail.com", firstName: "Matt", lastName: "Schlosser", password: "1234", household: 1}];
+var users = [{id: 16, email: "websitemakingguy@gmail.com", firstName: "Matt", lastName: "Schlosser", password: "1234", household: 1}];
 var user = users[0];
 // configure passport.js to use the local strategy
 passport.use(new LocalStrategy(
@@ -65,15 +65,15 @@ var db = new sqlite3.Database(__dirname + '/my.db');
 
 app.get('/', function(req, res) {
     // render the home page
-    res.render("home");
+    res.render("home/home");
 })
 
 app.get("/register", function(req, res) {
-    res.render("register");
+    res.render("auth/register");
 });
 
 app.get("/login", function(req, res) {
-    res.render("login");
+    res.render("auth/login");
 })
 
 app.post("/login", function(req, res, next) {
@@ -90,7 +90,7 @@ app.get("/chore/new", function(req, res) {
     // add a new chore
     db.get("SELECT * FROM households where households.household = ?;" [user.household], (err, household)=> {
         db.all("SELECT * FROM roommates natural join users where roommates.household = ?", [user.household], (err, roommates) => {
-            res.render("addChore", {user: user, household: household, roommates: roommates});
+            res.render("chores/addChore", {user: user, household: household, roommates: roommates});
         });
     });
 });
@@ -110,7 +110,7 @@ app.get("/chores", function(req, res) {
     db.get("SELECT * FROM households where households.household = ?", [user.household], (err, household) => {
         db.all("SELECT * FROM chores natural join users natural join roommates where roommates.household = ? ", [user.household], (err, chores) => {
             console.log(chores);    
-            res.render("chores", {user: user, household: household, chores: chores});
+            res.render("chores/chores", {user: user, household: household, chores: chores});
         })    
     })
     
@@ -140,9 +140,9 @@ app.delete("/chore/:id", function(req, res) {
     });
 });
 
-app.get("/grocers/new", function(req,res) {
+app.get("/groceries/new", function(req,res) {
     // oh ok    
-    res.render("addGrocery");
+    res.render("groceries/addGrocery");
 });
 
 
@@ -164,7 +164,7 @@ app.get("/groceries", function(req, res) {
         household = row[0];
         db.all("SELECT * from groceries natural join users   where groceries.household = ?;", [user.household], (err, groceries) => {
      
-            res.render("groceries", {user: user, household: household, groceries: groceries})
+            res.render("groceries/groceries", {user: user, household: household, groceries: groceries})
         })
     });
 
@@ -198,11 +198,17 @@ app.delete("/groceries/:id", function(req, res) {
 // create household
 app.get("/household/new", function(req, res) {
     // Make a new household
-    res.render("addHousehold", {user: user})
+    res.render("households/addHousehold", {user: user})
 });
 app.post("/households", function(req,res,next) {
-    newHousehold = req.body;
-    db.run("INSERT INTO households(name,street,city) values(?,?,?);", [newHousehold.name, newHousehold.street, newHousehold.city], (err) => {
+    // TODO auth user
+
+    household = req.body;
+    // TODO check params passed. 
+
+    // insert into DB
+    query = "INSERT INTO households(name,street,city) values(?,?,?);" 
+    db.run(query, [household.name, household.street, household.city], (err) => {
         console.log(err);
     })
     res.redirect("/households");
@@ -216,7 +222,7 @@ app.get("/household", function(req, res) {
     households = [{id: 1, name: "HMS Hamster", street: "11151 78 Ave NW", city: "Edmonton, AB"}];
     db.get("SELECT * FROM households where household = ?;", [user.household], (err, household) => {
         db.all("SELECT * FROM roommates natural join users where roommates.household = ?", [user.household], (err, roommates) => {
-            res.render("house", {user: user, household: household, roommates: roommates});
+            res.render("households/house", {user: user, household: household, roommates: roommates});
         });
     })
     
@@ -226,7 +232,7 @@ app.get("/households", function(req, res) {
     // list households;
     households = [{id: 1, name: "HMS Hamster", street: "11151 78 Ave NW", city: "Edmonton, AB"}];
     db.get("SELECT * FROM households where household = ?;", [user.household], (err, household) => {
-        res.render("households", {user: user, household: household});
+        res.render("households/households", {user: user, household: household});
     })
     
 });
@@ -236,9 +242,10 @@ app.get("/household/:id", function(req, res) {
     // view an individual household
     // do some seelct based on req.params.  id... say we get:
     db.get("SELECT household,name,street,city FROM households WHERE household = ?;", [req.params.id], (err, row) =>{
+        
         roommates = [{id: 1, firstName: "Matt", lastName: "Schlosser"}, 
                     {id: 2, firstName: "Connor", lastName: "Clark"}]
-        res.render("household", {household: row, roomates:roommates, user: user});
+        res.render("households/household", {household: row, roomates:roommates, user: user});
     })
     
 });
@@ -247,7 +254,8 @@ app.get("/household/:id", function(req, res) {
 //delete household
 app.delete("/household/:id", function(req, res){
     // TODO auth user
-    db.run("DELETE FROM households WHERE id = ?;", [req.params.id], (err) => {
+    query = "DELETE FROM households WHERE id = ?;";
+    db.run(query, [req.params.id], (err) => {
         if (err) {
             console.log(err);
             res.sendStatus(202);
@@ -271,7 +279,7 @@ app.post("/roommates", function(req, res) {
 
 // create
 app.get("/roommate/new", function(req, res) {
-    res.render("addRoommate", {user: user});
+    res.render("roommates/addRoommate", {user: user});
 })
 // read
 app.get("/roommate/:id", function(req, res) {
@@ -282,11 +290,14 @@ app.get("/roommate/:id", function(req, res) {
     db.get(query, [user.id, req.params.id], (err, roommate) => {
         if (!roommate) {
             console.log(roommate);
+            res.statusCode(404);
             res.send("Roommate not found!");
-        } else {        
-            db.get("Select * from households where households.household = ? ", [user.household], (err, household) => {
-                res.render("roommate", {roommate: roommate, user: user});       
-            })
+            res.end();
+        } else {
+            query = "SELECT * FROM households WHERE households.household = ? ";        
+            db.get(query, [user.household], (err, household) => {
+                res.render("roommates/roommate", {roommate: roommate, user: user});       
+            });
             //roommate = {id: 1, firstName: "Matt", lastName: "Schlosser"};
             console.log(roommate);
         }
@@ -307,14 +318,44 @@ app.delete("/roommate/:id", function(req, res){
 });
 
 // create rent
+app.get("/rent/new", (req, res) => {
+    res.render("rent/addRent");
+})
+app.post("/rent", (req, res) => {
+    // TODO auth user
+    utility = req.body;
+    // TODO check params
+    query = "INSERT INTO utilities (household, utility, amount) values (?, ?, ?);"
+    db.run(query, [user.household, utility.name, utility.value], (err) => {
+        console.log("Error creating rent: ");
+        console.log(err);
+    });
+    res.redirect("/rent")
+
+});
+
+
+// read rent
 app.get("/rent", function(req, res) {
     // get and send rent data
     console.log('Inside GET /authrequired callback')
     console.log(`User authenticated? ${req.isAuthenticated()}`)
   //  if(req.isAuthenticated()) {
-    rent = {amount: 450.00, due: new Date('2019-02-01T12:00:00'), paid: false};
-    utilities = {amount: 56.32, due: new Date('2019-02-01T12:00:00'), paid: false};
-    res.render("rent", {rent: rent, utilities: utilities});
+    query = "SELECT * FROM utilities WHERE household = ?;";
+    db.all(query, [user.household], (err, utilities) => {
+        if (err) {
+            console.log(err);
+        }
+        rent = {amount: 450.00, due: new Date('2019-02-01T12:00:00'), paid: false};
+        split = 7;
+        console.log(utilities);
+        res.render("rent/rent", {rent: rent, utilities: utilities, split: split})
+    })
+    // utilities = [{utility: "Internet", amount: 56.32, due: new Date('2019-02-01T12:00:00'), paid: false},
+    // {utility: "Water/Electric", amount: 41.32, due: new Date('2019-02-01T12:00:00'), paid: false},
+    // {utility: "Gas", amount: 15.32, due: new Date('2019-02-01T12:00:00'), paid: false}];
+    // split = 7;
+    // res.render("rent", {rent: rent, utilities: utilities, split: split});
  
 });
 

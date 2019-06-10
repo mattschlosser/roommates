@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chores - Roommates</title>
+    <% include ../partials/headers.ejs %>
+  </head>
+  <body>
+    <div class="container">
+    <% include ../partials/nav.ejs %>
+    <h1>Chores</h1>
+      <p>Hey <%= user.firstName %>, here are the chores for <%= household.name %> this week:</p>
+      <table class="table"><thead><th>Person</th><th>Task</th><th colspan='2'>Actions</th></thead>
+        <% for (var i = 0; i < chores.length; i++) { %>
+            <tr id="chore<%=chores[i].id%>"><td><%= chores[i].firstName %> <%=chores[i].lastName %></td><td><%= chores[i].task %></td>
+              <td>
+                <% if (chores[i].user == user.id && !chores[i].done) { %>
+                  <form method="post" action="/chore/<%= chores[i].id %>"><button class="btn btn-sm btn-primary btn-block" type="submit">Mark as Done</button></form>
+                <% } else if (chores[i].done) { %> 
+                  <button class="btn btn-success btn-sm btn-block" disabled>Completed</button>
+                <% } else if (chores[i].user != user.id && !chores[i].done) { %>
+                  <button class="btn btn-danger btn-sm btn-block">Nag</button>
+                <% } %>  
+              </td>
+              <td style="width:1%;">
+                <button class="btn btn-sm btn-danger delete" data-button='{"id": "<%=chores[i].id%>"}'' >Delete</button>
+              </td>
+            </tr>
+        <% } %>
+      </table>
+
+      <a class="btn btn-primary btn-block" href="/chore/new">Add a chore</a>
+    </div>
+    <% include ../partials/scripts.ejs %>
+    <script>
+      $(function(){
+        function chore(id) {
+          return "#chore" + id;
+        }  
+        $('.delete').on('click', function (e) {
+            let res = confirm('Are you sure?');
+            if (res) {      
+              console.log($(this).attr("data-button"));
+              data = JSON.parse($(this).attr("data-button"));
+              fetch("/chore/" + data.id, {
+                method: 'DELETE'
+              }).then(response => {
+                if (response.status == 200) {
+                  // deletion succeeded
+                  $(chore(data.id)).remove();
+                } else {
+                  // error
+                  alert("An error occurred...")
+                }
+              })
+              .catch(error => console.log("ERROR: " + console.log(error)));
+            }
+        });
+      });
+    </script>
+  </body>
+</html>

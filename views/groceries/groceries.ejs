@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Groceries - Roommates</title>
+    <% include ../partials/headers.ejs %>
+  </head>
+  <body>
+    <div class="container">
+      <% include ../partials/nav.ejs %>
+      <h1>Groceries</h1>
+      Hey <%= user.firstName %>, here are the groceries for <%= household.name %> this week
+      <table class="table">
+        <thead><th>Item</th><th>Requested by:</th><th colspan='2'>Actions</th></thead>
+      <% for (var i = 0; i < groceries.length; i++) { %>
+        <tr id='item<%=groceries[i].id%>'><td><%= groceries[i].item  %></td><td><%= groceries[i].firstName %></td>
+          <td>
+          <% if (!groceries[i].purchased) { %>
+            <form method="post" action="/groceries/<%=groceries[i].id%>"><button class='btn btn-primary btn-sm btn-block' onClick=''>Mark as Purchased</button></form>
+          <% } else { %>
+            <button class='btn btn-primary btn-sm btn-block' onClick='return false();' disabled>Already Purchased</button>
+          <% } %>
+          </td>
+          <td style="width:1%;">
+            <button class="btn btn-sm btn-danger delete" data-button='{"id": "<%=groceries[i].id%>"}' >Delete</button>
+          </td>
+        </tr>
+      <% } %>
+      </table>
+      <a class="btn btn-primary btn-block" href="/groceries/new">Add an item</a>
+
+    </div>
+
+    <% include ../partials/scripts.ejs %>
+    <script>
+      $(function(){
+        function item(id) {
+          return "#item" + id;
+        }  
+        $('.delete').on('click', function (e) {
+      
+            let res = confirm('Are you sure?');
+            if (res) {      
+              console.log($(this).attr("data-button"));
+              data = JSON.parse($(this).attr("data-button"));
+              fetch("/groceries/" + data.id, {
+                method: 'DELETE'
+              }).then(response => {
+                if (response.status == 200) {
+                  // deletion succeeded
+                  $(item(data.id)).remove();
+                } else {
+                  // error
+                  alert("An error occurred...")
+                }
+              })
+              .catch(error => console.log("ERROR: " + console.log(error)));
+            }
+        });
+      });
+    </script>
+  </body>
+</html>

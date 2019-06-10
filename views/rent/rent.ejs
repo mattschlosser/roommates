@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>Rent - Roommates</title>
+      <% include ../partials/headers.ejs %>
+  </head>
+  <body>
+    <div class="container">
+      <% include ../partials/nav.ejs %>
+      <h1>Rent and Utilitiles</h1>
+
+      <h2>Rent</h2>
+      
+      <span class="dollars">$<%=rent.amount %></span><br/>
+      Due: <%= rent.due %><br/>
+      Pay  with:
+      <a class="btn btn-primary" style="max-height:50px;" href="https://paypal.com">Paypal</a>
+      <a class="btn btn-secondary" style="max-height:50px;" href="https://www.interac.ca/en/interac-e-transfer-consumer.html">
+        e-transfer
+      </a><br/>
+
+      <h2>Utilities</h2>
+
+      <table class="table">
+        <thead><th>Item</th><th>Amount</th><th>Split Cost</th><th>Actions</th></thead>
+        <%
+          let sum = 0;  
+          for (let item of utilities) { 
+            sum += parseFloat((item.amount/split).toFixed(2)) %>
+          <tr><td><%=item.utility%></td><td>$<%=item.amount%></td><td>$<%=(item.amount/split).toFixed(2)%></td> <td style="width:15;"><button class="btn btn-danger btn-sm">Delete</button></td></tr>
+        <% } %>
+        <tr><td colspan='4' class="text-center">    Due: $<%= sum %> </td></tr>
+        <tr><td colspan='4'>     <button class="btn btn-success btn-block">I've paid</button> </td></tr>
+      </table>
+
+    </div>
+  <% include ../partials/scripts.ejs %>
+  </body>
+</html>
