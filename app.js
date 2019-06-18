@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-
+require('dotenv').config();
 
 var users = [{id: 16, email: "websitemakingguy@gmail.com", firstName: "Matt", lastName: "Schlosser", password: "1234", household: 1}];
 var user = users[0];
@@ -43,7 +43,7 @@ app.use(session({
     genid: (req) => {
       return uuid() // use UUIDs for session IDs
     },
-    secret: 'hippo idk',
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true
   }))

@@ -5,13 +5,10 @@ dishes, share grocery lists, and easily split rent costs.
 
 ## Install and setup for your own server
 
-clone the repo
+You must configure a SECRET in a `.env` file. 
 
 ```
 npm install
-```
-
-```
 node app.js
 ```
 
