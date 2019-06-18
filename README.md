@@ -9,13 +9,10 @@ Manage common things between roommates, like whose turn it is to do the
 
 ## Install and setup for your own server
 
-clone the repo
+You must configure a SECRET in a `.env` file. 
 
 ```
 npm install
-```
-
-```
 node app.js
 ```
 
