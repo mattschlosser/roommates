@@ -5,8 +5,8 @@ Manage common things between roommates, like whose turn it is to do the
  
  I still work on this from time to time. 
  
- A demo version is available at [roomm8s.net](https://roomm8s.net). 
-
+ A demo version is available at https://roomm8s.mattschlosser.me/
+ 
 ## Install and setup for your own server
 
 You must configure a SECRET in a `.env` file. 
