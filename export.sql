@@ -13,6 +13,14 @@ INSERT INTO `chores` VALUES (1,1,4,'DISHES',NULL);
 INSERT INTO `chores` VALUES (2,1,1,'bob',NULL);
 INSERT INTO `chores` VALUES (3,1,3,'bathrooms',NULL);
 DROP TABLE IF EXISTS `groceries`;
+CREATE TABLE IF NOT EXISTS `utilities` (
+	`id`	INTEGER PRIMARY KEY AUTOINCREMENT, 
+	`household` INTEGER,
+	`utility` TEXT,
+	`amount` TEXT,
+	FOREIGN KEY (`household`) REFERENCES `households`(`household`)
+);
+INSERT INTO `utilities` VALUES(1,1,'Internet', '73.99');
 CREATE TABLE IF NOT EXISTS `groceries` (
 	`id`	INTEGER PRIMARY KEY AUTOINCREMENT,
 	`household`	INTEGER,

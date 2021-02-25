@@ -1,0 +1,10 @@
+version: '3.2'
+services:
+  node:
+    build: .
+    volumes:
+      - ./:/node
+    ports:
+      - "8082:8080"
+    restart: unless-stopped
+
