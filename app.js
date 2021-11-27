@@ -7,7 +7,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 require('dotenv').config();
 
-var users = [{id: 16, email: "websitemakingguy@gmail.com", firstName: "Matt", lastName: "Schlosser", password: "1234", household: 1}];
+var users = [{id: 4, email: "websitemakingguy@gmail.com", firstName: "Matt", lastName: "Schlosser", password: "1234", household: 1}];
 var user = users[0];
 // configure passport.js to use the local strategy
 passport.use(new LocalStrategy(
