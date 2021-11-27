@@ -9,11 +9,24 @@ Manage common things between roommates, like whose turn it is to do the
  
 ## Install and setup for your own server
 
-You must configure a SECRET in a `.env` file. 
+You must configure a SECRET in a `.env` file and populate the database first
 
+```
+# schema
+sqlite3 my.db <  db.sql
+# test data
+sqlite3 my.db < export.sql
+```
+
+Then install and run
 ```
 npm install
 node app.js
 ```
 
 visit [http://localhost:8080/](http://localhost:8080)
+
+or with Docker
+```
+docker-compose up 
+```
