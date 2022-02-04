@@ -3,8 +3,10 @@ services:
   node:
     build: .
     volumes:
-      - ./:/node
+      - ./:/usr/src/app
+      - node_modules:/usr/src/node_modules
     ports:
       - "8082:8080"
     restart: unless-stopped
-
+volumes:
+  node_modules:

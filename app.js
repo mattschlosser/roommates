@@ -1,6 +1,6 @@
 const express = require('express');
 const uuid = require('uuid/v4');
-const session = require('express-session'); 
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
 const passport = require('passport');
